@@ -1,4 +1,4 @@
-package se.kth.iv1201.group4.recruitment.recruitmentapp.application;
+package se.kth.iv1201.group4.recruitment.recruitmentapp.presentation;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
