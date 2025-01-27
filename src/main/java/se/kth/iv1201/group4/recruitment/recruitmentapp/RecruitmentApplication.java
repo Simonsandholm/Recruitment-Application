@@ -12,4 +12,4 @@ public class RecruitmentApplication {
         SpringApplication.run(RecruitmentApplication.class, args);
     }
 
-}
+} 
