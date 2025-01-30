@@ -1,5 +1,6 @@
 package se.kth.iv1201.group4.recruitment.recruitmentapp.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -10,13 +11,14 @@ import lombok.Data;
 @Table(name = "competence_profile")
 public class CompetenceProfile {
     @Id
-    private Long id;
+    @Column(name = "competence_profile_id")
+    private Integer id;
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 }
