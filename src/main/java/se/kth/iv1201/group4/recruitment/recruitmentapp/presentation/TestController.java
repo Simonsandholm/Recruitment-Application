@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/test")
+@RequestMapping("/application")
 public class TestController {
 
     @PersistenceContext

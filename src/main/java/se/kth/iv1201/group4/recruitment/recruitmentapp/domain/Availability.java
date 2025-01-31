@@ -1,22 +1,35 @@
 package se.kth.iv1201.group4.recruitment.recruitmentapp.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+import java.util.Date;
 
 @Entity
+@Table(name = "availability", schema = "public") // Ensure Hibernate looks in the correct schema
 @Data
 public class Availability {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-incremented primary key
     @Column(name = "availability_id")
     private Integer id;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    @Column(name = "person_id")
+    private Integer personId;
 
-    public Integer getId() {
-        return id;
+    @Column(name = "from_date")
+    private Date fromDate;
+
+    @Column(name = "to_date")
+    private Date toDate;
+
+    // Default constructor
+    public Availability() {}
+
+    // Parameterized constructor
+    public Availability(Integer personId, Date fromDate, Date toDate) {
+        this.personId = personId;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
     }
 }
