@@ -3,19 +3,24 @@ package se.kth.iv1201.group4.recruitment.recruitmentapp.domain;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "recruitmentdb")
+@Table(name = "user_account")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_account_id")
+    private Integer id;
 
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "last_name")
     private String lastName;
 
     @Column(unique = true)
     private String email;
 
+    @Column(name = "person_number")
     private String personNumber;
 
     @Column(unique = true)
@@ -36,11 +41,11 @@ public class User {
     }
 
     // Getters and Setters
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

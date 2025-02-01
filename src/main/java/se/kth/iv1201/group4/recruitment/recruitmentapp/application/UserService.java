@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.User;
 
 import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.RegisterDTO;
-import se.kth.iv1201.group4.Repository.UserRepository;
+import se.kth.iv1201.group4.recruitment.recruitmentapp.repository.UserRepository;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
