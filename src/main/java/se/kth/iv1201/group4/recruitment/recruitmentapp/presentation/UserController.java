@@ -2,11 +2,13 @@ package se.kth.iv1201.group4.recruitment.recruitmentapp.presentation;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.application.UserService;
 
+import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.LoginDTO;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.RegisterDTO;
 
 
@@ -26,11 +28,25 @@ public class UserController {
     public ResponseEntity<RegisterDTO> login(@RequestBody @Valid RegisterDTO registerDTO){
         return null;
     }*/
-    @GetMapping("/login")
-    public String loginPage() {
-        return "login";
+    @GetMapping("/login2")
+    public String loginPage(Model model) {
+        model.addAttribute("LoginDTO", new LoginDTO());
+        return "login2";
     }
+    @PostMapping("/login2")
+    //public String login(@RequestParam String username, @RequestParam String password) {
+    public String login(@ModelAttribute("LoginDTO") LoginDTO dto, Model model) {
+        //boolean isAuthenticated = userService.authenticate(username, password);
 
+        //System.out.println(username);
+        //System.out.println(password);
+        System.out.println(dto.getUsername());
+        System.out.println(dto.getPassword());
+        System.out.println(model);
+
+        return "/dashboard"; //
+
+    }
     //@GetMapping("/register")
     @PostMapping("/register")
 public ResponseEntity<String> register(@RequestBody @Valid RegisterDTO dto) {
