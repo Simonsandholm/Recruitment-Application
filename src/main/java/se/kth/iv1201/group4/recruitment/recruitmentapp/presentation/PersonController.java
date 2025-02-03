@@ -1,27 +1,25 @@
 package se.kth.iv1201.group4.recruitment.recruitmentapp.presentation;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.validation.Valid;
+import se.kth.iv1201.group4.recruitment.recruitmentapp.application.PersonService;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.application.UserService;
-
 import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.LoginDTO;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.RegisterDTO;
 
 
-
 //@RestController
 @Controller
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/person")
+public class PersonController {
 
-    private final UserService userService;
+    private final PersonService personService;
 
-    public UserController(UserService userService ){
-        this.userService = userService;
+    public PersonController(PersonService personService ){
+        this.personService = personService;
     }
 
     /*@PostMapping("/login")
@@ -41,18 +39,25 @@ public class UserController {
         //System.out.println(username);
         //System.out.println(password);
 
+        if(personService.validateUser(dto)){
+            System.out.println(dto.getUsername());
+            System.out.println(dto.getPassword());
+            System.out.println(model);
+            return "/dashboard";
+        }
+
 
         System.out.println(dto.getUsername());
         System.out.println(dto.getPassword());
         System.out.println(model);
 
-        return "/dashboard"; //
+        return "/login2";
 
     }
     //@GetMapping("/register")
     @PostMapping("/register")
 public ResponseEntity<String> register(@RequestBody @Valid RegisterDTO dto) {
-    userService.registerUser(dto); 
+    personService.registerUser(dto);
     return ResponseEntity.ok("User regged very nice i like how much.");
 }
 

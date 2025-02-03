@@ -1,8 +1,10 @@
 package se.kth.iv1201.group4.recruitment.recruitmentapp.application;
 
 import org.springframework.stereotype.Service;
+import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.Person;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.User;
 
+import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.LoginDTO;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.RegisterDTO;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.repository.UserRepository;
 
@@ -31,6 +33,8 @@ public class UserService {
                              passwordEncoder.encode(dto.getPassword()));
         userRepository.save(user);
     }
+
+
 
 
 

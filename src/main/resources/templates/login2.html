@@ -7,7 +7,7 @@
 <h1>Login Page</h1>
 <p th:if="${loginError}" class="error">Wrong user or password</p>
 
-<form th:action="@{/user/login2}"  th:object="${LoginDTO}" method="post" >
+<form th:action="@{/person/login2}"  th:object="${LoginDTO}" method="post" >
     <label for="username">Username</label>:
     <input type="text" id="username" name="username" th:field="*{username}" required /> <br />
 
