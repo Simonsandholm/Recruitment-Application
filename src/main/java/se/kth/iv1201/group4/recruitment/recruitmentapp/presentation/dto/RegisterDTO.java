@@ -5,24 +5,38 @@ import jakarta.validation.constraints.NotBlank;
 
 public class RegisterDTO {
 
-    @NotBlank(message = "First name is required boi")
+    @NotBlank(message = "First name is required.")
     private String firstName;
 
-    @NotBlank(message = "Last name is required bitch")
+    @NotBlank(message = "Last name is required.")
     private String lastName;
 
-    @Email(message = "Invalid email format u piece of shit")
-    @NotBlank(message = "Email is required")
+    @Email(message = "Invalid email format.")
+    @NotBlank(message = "Email is required.")
     private String email;
 
-    @NotBlank(message = "Person number is required, karabakh bizimdir")
+    @NotBlank(message = "Person number is required.")
     private String personNumber;
 
-    @NotBlank(message = "Username is required, ALYEV GOAT")
+    @NotBlank(message = "Username is required.")
     private String username;
 
-    @NotBlank(message = "Password is required")
+    @NotBlank(message = "Password is required.")
     private String password;
+
+
+
+    public RegisterDTO(String firstName, String lastName, String mail, String socialSecurityNumber, String username, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = mail;
+        this.personNumber = socialSecurityNumber;
+        this.username = username;
+        this.password = password;
+
+    }
+
+    public RegisterDTO() {}
 
     // Getters
     public String getFirstName() { return firstName; }

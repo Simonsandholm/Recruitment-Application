@@ -7,18 +7,41 @@ import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.User;
 
 // JpaRepository<User, Integer> means this repository is managing User entities
 // and the data type for the primary key is Integer
+
+/**
+ * The User repository that is mapped to the person table.
+ */
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
     // Check if email is already used
+
+    /**
+     *
+     * @param email of the user.
+     * @return true if a user exists with the given email.
+     */
     boolean existsByEmail(String email);
 
-    // Check if username is already used
+    /**
+     *
+     * @param username of the user.
+     * @return true if a user exists with the given username.
+     */
     boolean existsByUsername(String username);
 
-    // Find user by email, used for login or retrieval
+    /**
+     *
+     * @param email of the user.
+     * @return the user with the given email.
+     */
     User findByEmail(String email);
 
-    // Find user by username
+    /**
+     *
+     * @param username of the user.
+     * @return the user with the given username.
+     */
     User findByUsername(String username);
+
 }
 

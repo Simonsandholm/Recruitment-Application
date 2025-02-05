@@ -23,14 +23,20 @@ public class UserService {
 
     public void registerUser(RegisterDTO dto) {
         if (userRepository.existsByEmail(dto.getEmail())) {
-            throw new RuntimeException("Email already in use bitchass.");
+            throw new RuntimeException("Email is already in use.");
+        }
+
+        if (userRepository.existsByUsername(dto.getUsername())) {
+            throw new RuntimeException("Username is already taken.");
         }
 
         User user = new User(dto.getFirstName(), dto.getLastName(), dto.getEmail(),
-                             dto.getPersonNumber(), dto.getUsername(),
-                             passwordEncoder.encode(dto.getPassword()));
-        userRepository.save(user);
+                dto.getPersonNumber(), dto.getUsername(),
+                passwordEncoder.encode(dto.getPassword()));
+        System.out.println("service " + user.getUsername());
+        userRepository.save(user); // .save is inherited from JpaRepository
     }
+
 
 
     
