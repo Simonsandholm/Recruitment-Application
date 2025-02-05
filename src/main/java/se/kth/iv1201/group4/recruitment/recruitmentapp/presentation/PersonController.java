@@ -2,6 +2,8 @@ package se.kth.iv1201.group4.recruitment.recruitmentapp.presentation;
 
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +33,16 @@ public class PersonController {
         model.addAttribute("LoginDTO", new LoginDTO());
         return "login2";
     }
+
+    @GetMapping("/dashboard")
+    public String dashboardPage(Model model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();  // Get current logged-in username
+        System.out.println("username:" + username);
+        model.addAttribute("username", username);  // Add username to the model
+        return "/dashboard";
+    }
+
     @PostMapping("/login2")
     //public String login(@RequestParam String username, @RequestParam String password) {
     public String login(@ModelAttribute("LoginDTO") LoginDTO dto, Model model) {
@@ -43,6 +55,8 @@ public class PersonController {
             System.out.println(dto.getUsername());
             System.out.println(dto.getPassword());
             System.out.println(model);
+
+            //return "redirect:/person/dashboard";
             return "/dashboard";
         }
 
@@ -50,7 +64,7 @@ public class PersonController {
         System.out.println(dto.getUsername());
         System.out.println(dto.getPassword());
         System.out.println(model);
-
+        model.addAttribute("loginError", true);
         return "/login2";
 
     }
