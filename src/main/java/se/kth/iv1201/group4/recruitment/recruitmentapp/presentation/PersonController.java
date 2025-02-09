@@ -1,5 +1,6 @@
 package se.kth.iv1201.group4.recruitment.recruitmentapp.presentation;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,7 @@ import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.Register
 //@RestController
 @Controller
 @RequestMapping("/person")
+@SessionAttributes("username")
 public class PersonController {
 
     private final PersonService personService;
@@ -35,13 +37,17 @@ public class PersonController {
     }
 
     @GetMapping("/dashboard")
-    public String dashboardPage(Model model){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    public String dashboardPage(Model model, @SessionAttribute("username") String username){
+        /*Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();  // Get current logged-in username
-        System.out.println("username:" + username);
+        System.out.println("username:" + username);*/
+
+
         model.addAttribute("username", username);  // Add username to the model
         return "/dashboard";
     }
+
+
 
     @PostMapping("/login2")
     //public String login(@RequestParam String username, @RequestParam String password) {
@@ -55,9 +61,9 @@ public class PersonController {
             System.out.println(dto.getUsername());
             System.out.println(dto.getPassword());
             System.out.println(model);
-
-            //return "redirect:/person/dashboard";
-            return "/dashboard";
+            model.addAttribute("username", dto.getUsername());
+            return "redirect:/person/dashboard";
+            //return "/dashboard";
         }
 
 
