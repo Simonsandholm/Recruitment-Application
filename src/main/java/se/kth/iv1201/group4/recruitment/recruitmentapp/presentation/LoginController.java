@@ -18,7 +18,7 @@ import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.Register
 
 //@RestController
 @Controller
-@RequestMapping("/login2")
+@RequestMapping("/login")
 @SessionAttributes("username")
 public class LoginController {
 
@@ -36,7 +36,7 @@ public class LoginController {
     public String loginPage(Model model) {
         //generatePassword();
         model.addAttribute("LoginDTO", new LoginDTO());
-        return "login2";
+        return "login";
     }
 
 

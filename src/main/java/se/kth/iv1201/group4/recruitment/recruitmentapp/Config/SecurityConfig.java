@@ -27,15 +27,15 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable());
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/login2").permitAll()
+                        .requestMatchers("/login").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
-                        .loginPage("/login2")
+                        .loginPage("/login")
                         .defaultSuccessUrl("/person/dashboard", true)
                         .permitAll()
                 )
-                .logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/login2") // Redirect after logout
+                .logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/login") // Redirect after logout
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
                         .permitAll());
