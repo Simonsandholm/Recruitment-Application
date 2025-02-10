@@ -30,17 +30,13 @@ public class PersonController {
     public ResponseEntity<RegisterDTO> login(@RequestBody @Valid RegisterDTO registerDTO){
         return null;
     }*/
-    @GetMapping("/login2")
-    public String loginPage(Model model) {
-        model.addAttribute("LoginDTO", new LoginDTO());
-        return "login2";
-    }
+
 
     @GetMapping("/dashboard")
-    public String dashboardPage(Model model, @SessionAttribute("username") String username){
-        /*Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    public String dashboardPage(Model model/*, @SessionAttribute("username") String username*/){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();  // Get current logged-in username
-        System.out.println("username:" + username);*/
+        System.out.println("username:" + username);
 
 
         model.addAttribute("username", username);  // Add username to the model
@@ -49,31 +45,7 @@ public class PersonController {
 
 
 
-    @PostMapping("/login2")
-    //public String login(@RequestParam String username, @RequestParam String password) {
-    public String login(@ModelAttribute("LoginDTO") LoginDTO dto, Model model) {
-        //boolean isAuthenticated = userService.authenticate(username, password);
 
-        //System.out.println(username);
-        //System.out.println(password);
-
-        if(personService.validateUser(dto)){
-            System.out.println(dto.getUsername());
-            System.out.println(dto.getPassword());
-            System.out.println(model);
-            model.addAttribute("username", dto.getUsername());
-            return "redirect:/person/dashboard";
-            //return "/dashboard";
-        }
-
-
-        System.out.println(dto.getUsername());
-        System.out.println(dto.getPassword());
-        System.out.println(model);
-        model.addAttribute("loginError", true);
-        return "/login2";
-
-    }
     //@GetMapping("/register")
     @PostMapping("/register")
 public ResponseEntity<String> register(@RequestBody @Valid RegisterDTO dto) {

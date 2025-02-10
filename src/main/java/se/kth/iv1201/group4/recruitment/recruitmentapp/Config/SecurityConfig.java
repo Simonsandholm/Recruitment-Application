@@ -14,25 +14,31 @@ import org.springframework.security.web.SecurityFilterChain;
 
 
 
-@Configuration  
+@Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
     @Bean  
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf(csrf -> csrf.disable());
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/person").permitAll()
+                        .requestMatchers("/login2").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
-                        .loginPage("person/login2")
+                        .loginPage("/login2")
+                        .defaultSuccessUrl("/person/dashboard", true)
                         .permitAll()
                 )
-                .logout((logout) -> logout.permitAll());
+                .logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/login2") // Redirect after logout
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .permitAll());
 
         return http.build();
     }
