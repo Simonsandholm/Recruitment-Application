@@ -24,19 +24,16 @@ public class RegisterDTO {
     @NotBlank(message = "Password is required.")
     private String password;
 
+    public RegisterDTO() {}
 
-
-    public RegisterDTO(String firstName, String lastName, String mail, String socialSecurityNumber, String username, String password) {
+    public RegisterDTO(String firstName, String lastName, String email, String personNumber, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = mail;
-        this.personNumber = socialSecurityNumber;
+        this.email = email;
+        this.personNumber = personNumber;
         this.username = username;
         this.password = password;
-
     }
-
-    public RegisterDTO() {}
 
     // Getters
     public String getFirstName() { return firstName; }
