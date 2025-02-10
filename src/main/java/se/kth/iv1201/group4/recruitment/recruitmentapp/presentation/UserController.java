@@ -39,41 +39,38 @@ public class UserController {
     }
 
     /**
-     *
-     * @param dto
-     * @return
+     * The second method that is called once the user fills in the form.
+     * @param dto the object holding the form information.
+     * @return the dashboard view if successful.
      */
     @PostMapping("/register")
-    public String register(@ModelAttribute("registerDTO") @Valid RegisterDTO dto, BindingResult result, Model model) {
-        System.out.println("second " + dto.getEmail());
-        System.out.println(model);
+    public String register(@ModelAttribute("registerDTO") @Valid RegisterDTO dto,
+                           BindingResult result,
+                           Model model) {
+
+        // If validation errors exist, return to the registration form with values submitted before.
         if (result.hasErrors()) {
-            result.getAllErrors().forEach(error -> System.out.println(error.toString()));
             return "register";
         }
 
-        userService.registerUser(dto);
+        try {
+            userService.registerUser(dto);
+        } catch (RuntimeException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "register"; // Stay on the same page and display error
+        }
 
-        System.out.println("second register" + dto.getUsername());
         return "redirect:/user/register-success";
     }
 
+    /**
+     * A get call that is made if registering is successful.
+     * @return to the dashboard
+     */
     @GetMapping("/register-success")
     public String registerSuccess() {
         return "dashboard";
     }
 
-
-
-    /*@PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody @Valid RegisterDTO dto) {
-        userService.registerUser(dto);
-        return ResponseEntity.ok("User regged very nice i like how much.");
-    }*/
-
-
-
-
-    
     
 }

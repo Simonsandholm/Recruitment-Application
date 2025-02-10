@@ -8,7 +8,6 @@ import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.User;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-//
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @DataJpaTest
 public class UserRepositoryTest {
