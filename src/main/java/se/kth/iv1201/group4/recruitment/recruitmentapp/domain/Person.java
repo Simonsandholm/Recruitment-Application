@@ -1,112 +1,71 @@
 package se.kth.iv1201.group4.recruitment.recruitmentapp.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.Data;
+import jakarta.persistence.*;
 
 @Entity
-@Data
 public class Person {
     @Id
-    @Column(name = "person_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "person_id", nullable = false, updatable = false)
     private Integer id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "name", nullable = false)
+    private String firstName;
 
-    @Column(name = "surname")
-    private String surName;
+    @Column(name = "surname", nullable = false)
+    private String lastName;
 
-    @Column(name = "pnr")
-    private String pnr;
+    @Column(name = "pnr", nullable = false, unique = true)
+    private String personNumber;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "role_id")
-    private String roleId;
-
-    @Column(name = "username")
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 
-    public Integer getId() {
-        return id;
-    }
+    public Person() {}
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurName() {
-        return surName;
-    }
-
-    public void setSurName(String surName) {
-        this.surName = surName;
-    }
-
-    public String getPnr() {
-        return pnr;
-    }
-
-    public void setPnr(String pnr) {
-        this.pnr = pnr;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
+    public Person(String firstName, String lastName, String personNumber,
+                  String email, String password, String username) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.personNumber = personNumber;
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
         this.username = username;
     }
 
-    public Person(Integer id, String name, String surName, String pnr, String email, String password, String roleId, String username) {
-        this.id = id;
-        this.name = name;
-        this.surName = surName;
-        this.pnr = pnr;
-        this.email = email;
-        this.password = password;
-        this.roleId = roleId;
-        this.username = username;
-    }
+    // Getters and Setters
+    public Integer getId() { return id; }
 
-    public Person(){}
+    public void setId(Integer id) { this.id = id; }  // 🔹 Hibernate will ignore this for new inserts
+
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
+
+    public String getPersonNumber() { return personNumber; }
+    public void setPersonNumber(String personNumber) { this.personNumber = personNumber; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+
+    public Role getRole() { return role; }
+    public void setRole(Role role) { this.role = role; }
 }

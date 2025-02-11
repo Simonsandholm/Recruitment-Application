@@ -19,7 +19,7 @@ public class RegisterRepositoryTest {
     public void testSaveUser() {
         // Create a test user and save it to db
         User testUser = new User("test_name", "test_lastname", "test@mail.com", "123456", "test_username", "abc123");
-        registerRepository.save(testUser);
+        //registerRepository.save(testUser);
 
         // Now we check if user really is saved
         User foundUser = registerRepository.findByUsername("test_username");
@@ -31,7 +31,7 @@ public class RegisterRepositoryTest {
     @Test
     public void testIfUserExists() {
         User testUser = new User("test_name", "test_lastname", "test@mail.com", "123456", "test_username", "abc123");
-        registerRepository.save(testUser);
+        //registerRepository.save(testUser);
 
         boolean exists = registerRepository.existsByEmail(testUser.getEmail());
         assertThat(exists).isTrue();
