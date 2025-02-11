@@ -17,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Service
 public class RegisterService {
 
-    private final RegisterRepository registerRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final PersonRepository personRepository;
@@ -25,15 +24,14 @@ public class RegisterService {
     /**
      * Constructor for RegisterService.
      *
-     * @param registerRepository The repository handling database operations for users.
+     * @param personRepository The repository handling database operations for users.
      * @param roleRepository The repository for retrieving roles.
      * @param passwordEncoder The encoder used to hash passwords before saving.
      */
-    public RegisterService(RegisterRepository registerRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, PersonRepository personRepository) {
-        this.registerRepository = registerRepository;
+    public RegisterService(PersonRepository personRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+        this.personRepository = personRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
-        this.personRepository = personRepository;
     }
 
     /**
@@ -46,11 +44,11 @@ public class RegisterService {
      */
     @Transactional
     public void registerUser(RegisterDTO dto) {
-        if (registerRepository.existsByEmail(dto.getEmail())) {
+        if (personRepository.existsByEmail(dto.getEmail())) {
             throw new RuntimeException("Email is already in use.");
         }
 
-        if (registerRepository.existsByUsername(dto.getUsername())) {
+        if (personRepository.existsByUsername(dto.getUsername())) {
             throw new RuntimeException("Username is already taken.");
         }
 

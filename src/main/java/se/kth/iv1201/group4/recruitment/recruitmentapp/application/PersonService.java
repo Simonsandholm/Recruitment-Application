@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.Person;
-import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.User;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.LoginDTO;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.RegisterDTO;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.repository.PersonRepository;
