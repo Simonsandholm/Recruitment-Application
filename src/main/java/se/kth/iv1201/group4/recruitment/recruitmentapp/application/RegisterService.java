@@ -2,6 +2,7 @@ package se.kth.iv1201.group4.recruitment.recruitmentapp.application;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.Person;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.User;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.RegisterDTO;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.repository.RegisterRepository;
@@ -46,12 +47,12 @@ public class RegisterService {
             throw new RuntimeException("Username is already taken.");
         }
 
-        User user = new User(dto.getFirstName(), dto.getLastName(), dto.getEmail(),
-                dto.getPersonNumber(), dto.getUsername(),
-                passwordEncoder.encode(dto.getPassword()));
+        Person person = new Person(null, dto.getFirstName(), dto.getLastName(),
+                dto.getPersonNumber() , dto.getEmail(),
+                passwordEncoder.encode(dto.getPassword()), "1",  dto.getUsername());
 
-        System.out.println("service " + user.getUsername());
+        System.out.println("service " + person.getUsername());
 
-        registerRepository.save(user);
+        registerRepository.save(person);
     }
 }

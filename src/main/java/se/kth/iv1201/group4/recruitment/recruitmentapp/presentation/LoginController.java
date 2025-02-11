@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.application.PersonService;
-import se.kth.iv1201.group4.recruitment.recruitmentapp.application.UserService;
+//import se.kth.iv1201.group4.recruitment.recruitmentapp.application.UserService;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.LoginDTO;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.RegisterDTO;
 

@@ -11,7 +11,7 @@ import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.User;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.LoginDTO;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.RegisterDTO;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.repository.PersonRepository;
-import se.kth.iv1201.group4.recruitment.recruitmentapp.repository.UserRepository;
+
 
 import java.util.Collections;
 
