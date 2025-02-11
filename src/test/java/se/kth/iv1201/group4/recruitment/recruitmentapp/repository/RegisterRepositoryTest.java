@@ -10,19 +10,19 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @DataJpaTest
-public class UserRepositoryTest {
+public class RegisterRepositoryTest {
 
     @Autowired
-    private UserRepository userRepository;
+    private RegisterRepository registerRepository;
 
     @Test
     public void testSaveUser() {
         // Create a test user and save it to db
         User testUser = new User("test_name", "test_lastname", "test@mail.com", "123456", "test_username", "abc123");
-        userRepository.save(testUser);
+        registerRepository.save(testUser);
 
         // Now we check if user really is saved
-        User foundUser = userRepository.findByUsername("test_username");
+        User foundUser = registerRepository.findByUsername("test_username");
         assertThat(foundUser).isNotNull();
         assertThat(foundUser.getUsername()).isEqualTo("test_username");
         assertThat(foundUser.getEmail()).isEqualTo("test@mail.com");
@@ -31,9 +31,9 @@ public class UserRepositoryTest {
     @Test
     public void testIfUserExists() {
         User testUser = new User("test_name", "test_lastname", "test@mail.com", "123456", "test_username", "abc123");
-        userRepository.save(testUser);
+        registerRepository.save(testUser);
 
-        boolean exists = userRepository.existsByEmail(testUser.getEmail());
+        boolean exists = registerRepository.existsByEmail(testUser.getEmail());
         assertThat(exists).isTrue();
 
     }

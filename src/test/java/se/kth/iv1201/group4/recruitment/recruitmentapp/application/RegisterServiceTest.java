@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.User;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.RegisterDTO;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -22,10 +21,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 */
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class UserServiceTest {
+public class RegisterServiceTest {
 
     @Autowired
-    private UserService userService;
+    private RegisterService registerService;
 
     // Inserting duplicate email on purpose
     @Test
@@ -46,7 +45,7 @@ public class UserServiceTest {
                         "chingiz",
                         "abc123"
                 );
-        assertThrows(RuntimeException.class, () -> userService.registerUser(secondUser));
+        assertThrows(RuntimeException.class, () -> registerService.registerUser(secondUser));
     }
 
     // Inserting duplicate username on purpose
@@ -68,7 +67,7 @@ public class UserServiceTest {
                         "itIsMine",
                         "abc123"
                 );
-        assertThrows(RuntimeException.class, () -> userService.registerUser(secondUser));
+        assertThrows(RuntimeException.class, () -> registerService.registerUser(secondUser));
     }
 
     @Test
@@ -77,7 +76,7 @@ public class UserServiceTest {
                 (
                         "Valid", "User", "valid@mail.com", "987654", "validuser", "securepassword"
                 );
-        assertDoesNotThrow(() -> userService.registerUser(newUser));
+        assertDoesNotThrow(() -> registerService.registerUser(newUser));
     }
 
     @Test
@@ -86,7 +85,7 @@ public class UserServiceTest {
                 "", "", "", "", "", ""
         );
 
-        assertThrows(RuntimeException.class, () -> userService.registerUser(invalidUser));
+        assertThrows(RuntimeException.class, () -> registerService.registerUser(invalidUser));
     }
 
 

@@ -3,6 +3,7 @@ package se.kth.iv1201.group4.recruitment.recruitmentapp.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.Person;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.User;
 
 // JpaRepository<User, Integer> means this repository is managing User entities
@@ -12,7 +13,7 @@ import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.User;
  * The User repository that is mapped to the person table.
  */
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface RegisterRepository extends JpaRepository<Person, Integer> {
     // Check if email is already used
 
     /**

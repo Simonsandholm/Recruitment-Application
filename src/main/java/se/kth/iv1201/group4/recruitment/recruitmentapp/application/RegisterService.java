@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.User;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.RegisterDTO;
-import se.kth.iv1201.group4.recruitment.recruitmentapp.repository.UserRepository;
+import se.kth.iv1201.group4.recruitment.recruitmentapp.repository.RegisterRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
@@ -12,19 +12,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * This service interacts with the repository and encodes passwords before saving users.
  */
 @Service
-public class UserService {
+public class RegisterService {
 
-    private final UserRepository userRepository;
+    private final RegisterRepository registerRepository;
     private final PasswordEncoder passwordEncoder;
 
     /**
-     * Constructor for UserService.
+     * Constructor for RegisterService.
      *
-     * @param userRepository  The repository handling database operations for users.
+     * @param registerRepository  The repository handling database operations for users.
      * @param passwordEncoder The encoder used to hash passwords before saving.
      */
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
+    public RegisterService(RegisterRepository registerRepository, PasswordEncoder passwordEncoder) {
+        this.registerRepository = registerRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -38,11 +38,11 @@ public class UserService {
      */
     @Transactional
     public void registerUser(RegisterDTO dto) {
-        if (userRepository.existsByEmail(dto.getEmail())) {
+        if (registerRepository.existsByEmail(dto.getEmail())) {
             throw new RuntimeException("Email is already in use.");
         }
 
-        if (userRepository.existsByUsername(dto.getUsername())) {
+        if (registerRepository.existsByUsername(dto.getUsername())) {
             throw new RuntimeException("Username is already taken.");
         }
 
@@ -52,6 +52,6 @@ public class UserService {
 
         System.out.println("service " + user.getUsername());
 
-        userRepository.save(user);
+        registerRepository.save(user);
     }
 }

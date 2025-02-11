@@ -1,24 +1,23 @@
 package se.kth.iv1201.group4.recruitment.recruitmentapp.presentation;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-import se.kth.iv1201.group4.recruitment.recruitmentapp.application.UserService;
+import se.kth.iv1201.group4.recruitment.recruitmentapp.application.RegisterService;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.RegisterDTO;
 
 
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class RegisterController {
 
-    private final UserService userService;
+    private final RegisterService registerService;
 
-    public UserController(UserService userService ){
-        this.userService = userService;
+    public RegisterController(RegisterService registerService){
+        this.registerService = registerService;
     }
 
 
@@ -54,7 +53,7 @@ public class UserController {
         }
 
         try {
-            userService.registerUser(dto);
+            registerService.registerUser(dto);
         } catch (RuntimeException e) {
             model.addAttribute("errorMessage", e.getMessage());
             return "register"; // Stay on the same page and display error

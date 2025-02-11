@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
     <title>Dashboard</title>
 </head>
 <body>
-    <h1>Register successful</h1>
+<h1>Welcome to the Dashboard!</h1>
+<p>You are successfully logged in, <p th:text="${username}"></p>! </p>
+<form action="/logout" method="post">
+    <button type="submit">Logout</button>
+</form>
 </body>
 </html>
