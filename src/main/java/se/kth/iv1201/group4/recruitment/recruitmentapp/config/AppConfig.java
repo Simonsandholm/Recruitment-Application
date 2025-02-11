@@ -1,4 +1,4 @@
-package se.kth.iv1201.group4.recruitment.recruitmentapp.Config;
+package se.kth.iv1201.group4.recruitment.recruitmentapp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -3,25 +3,25 @@ package se.kth.iv1201.group4.recruitment.recruitmentapp.domain;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "user_account")
+@Table(name = "person")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_account_id")
+    @Column(name = "person_id")
     private Integer id;
 
-    @Column(name = "first_name")
+    @Column(name = "name")
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "surname")
     private String lastName;
 
     @Column(unique = true)
     private String email;
 
-    @Column(name = "person_number")
-    private String personNumber;
+    @Column(name = "pnr")
+    private String socialSecurityNumber;
 
     @Column(unique = true)
     private String username;
@@ -31,11 +31,11 @@ public class User {
  
     public User() {}
 
-    public User(String firstName, String lastName, String email, String personNumber, String username, String password) {
+    public User(String firstName, String lastName, String email, String socialSecurityNumber, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.personNumber = personNumber;
+        this.socialSecurityNumber = socialSecurityNumber;
         this.username = username;
         this.password = password;
     }
@@ -73,12 +73,12 @@ public class User {
         this.email = email;
     }
 
-    public String getPersonNumber() {
-        return personNumber;
+    public String getSocialSecurityNumber() {
+        return socialSecurityNumber;
     }
 
-    public void setPersonNumber(String personNumber) {
-        this.personNumber = personNumber;
+    public void setSocialSecurityNumber(String socialSecurityNumber) {
+        this.socialSecurityNumber = socialSecurityNumber;
     }
 
     public String getUsername() {

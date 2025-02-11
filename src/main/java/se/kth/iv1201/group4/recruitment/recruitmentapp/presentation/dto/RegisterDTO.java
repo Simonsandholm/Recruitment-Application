@@ -5,24 +5,35 @@ import jakarta.validation.constraints.NotBlank;
 
 public class RegisterDTO {
 
-    @NotBlank(message = "First name is required boi")
+    @NotBlank(message = "First name is required.")
     private String firstName;
 
-    @NotBlank(message = "Last name is required bitch")
+    @NotBlank(message = "Last name is required.")
     private String lastName;
 
-    @Email(message = "Invalid email format u piece of shit")
-    @NotBlank(message = "Email is required")
+    @Email(message = "Invalid email format.")
+    @NotBlank(message = "Email is required.")
     private String email;
 
-    @NotBlank(message = "Person number is required, karabakh bizimdir")
+    @NotBlank(message = "Person number is required.")
     private String personNumber;
 
-    @NotBlank(message = "Username is required, ALYEV GOAT")
+    @NotBlank(message = "Username is required.")
     private String username;
 
-    @NotBlank(message = "Password is required")
+    @NotBlank(message = "Password is required.")
     private String password;
+
+    public RegisterDTO() {}
+
+    public RegisterDTO(String firstName, String lastName, String email, String personNumber, String username, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.personNumber = personNumber;
+        this.username = username;
+        this.password = password;
+    }
 
     // Getters
     public String getFirstName() { return firstName; }
@@ -31,4 +42,28 @@ public class RegisterDTO {
     public String getPersonNumber() { return personNumber; }
     public String getUsername() { return username; }
     public String getPassword() { return password; }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPersonNumber(String personNumber) {
+        this.personNumber = personNumber;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
