@@ -19,7 +19,7 @@ import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.Register
  */
 //@RestController
 @Controller
-@RequestMapping("/person")
+//@RequestMapping("/person")
 @SessionAttributes("username")
 public class PersonController {
 
@@ -55,16 +55,7 @@ public class PersonController {
         return "/dashboard";
     }
 
-    @GetMapping("/recruiter")
-    public String recruiterPage(Model model/*, @SessionAttribute("username") String username*/){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();  // Get current logged-in username
-        System.out.println("username:" + username);
 
-
-        model.addAttribute("username", username);  // Add username to the model
-        return "/recruiter";
-    }
 
 
 

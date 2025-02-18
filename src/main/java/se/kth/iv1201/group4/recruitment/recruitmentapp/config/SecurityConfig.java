@@ -32,13 +32,13 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable());
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/login", "/user/register").permitAll()
-                        .requestMatchers("/person/recruiter").hasAuthority("recruiter")
+                        .requestMatchers("/login", "/register").permitAll()
+                        .requestMatchers("/recruiter").hasAuthority("recruiter")
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/person/dashboard", true)
+                        .defaultSuccessUrl("/dashboard", true)
                         .permitAll()
                 )
                 .logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/login")

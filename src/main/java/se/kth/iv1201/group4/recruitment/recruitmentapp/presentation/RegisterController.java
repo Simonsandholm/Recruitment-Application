@@ -11,7 +11,7 @@ import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.Register
 
 
 @Controller
-@RequestMapping("/user")
+//@RequestMapping("/user")
 public class RegisterController {
 
     private final RegisterService registerService;
