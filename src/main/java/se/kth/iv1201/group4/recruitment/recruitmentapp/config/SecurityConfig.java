@@ -28,8 +28,10 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/login", "/user/register").permitAll()
+                        .requestMatchers("/person/recruiter").hasAuthority("recruiter")
                         .anyRequest().authenticated()
                 )
+
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/person/dashboard", true)
@@ -38,8 +40,8 @@ public class SecurityConfig {
                 .logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/login") // Redirect after logout
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
-                        .permitAll());
-
+                        .permitAll()
+                );
         return http.build();
     }
 

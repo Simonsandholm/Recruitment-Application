@@ -43,6 +43,17 @@ public class PersonController {
         return "/dashboard";
     }
 
+    @GetMapping("/recruiter")
+    public String recruiterPage(Model model/*, @SessionAttribute("username") String username*/){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();  // Get current logged-in username
+        System.out.println("username:" + username);
+
+
+        model.addAttribute("username", username);  // Add username to the model
+        return "/recruiter";
+    }
+
 
 
 
@@ -52,6 +63,8 @@ public ResponseEntity<String> register(@RequestBody @Valid RegisterDTO dto) {
     personService.registerUser(dto);
     return ResponseEntity.ok("User regged very nice i like how much.");
 }
+
+
 
 
     
