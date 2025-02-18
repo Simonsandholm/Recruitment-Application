@@ -2,8 +2,13 @@ package se.kth.iv1201.group4.recruitment.recruitmentapp.domain;
 
 import jakarta.persistence.*;
 
+/**
+ * Represents a person in the system.
+ * This entity contains personal information, including name, email, username, and role.
+ */
 @Entity
 public class Person {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "person_id", nullable = false, updatable = false)
@@ -31,8 +36,10 @@ public class Person {
     @JoinColumn(name = "role_id")
     private Role role;
 
+    // Default constructor
     public Person() {}
 
+    // Constructor with all required fields
     public Person(String firstName, String lastName, String personNumber,
                   String email, String password, String username) {
         this.firstName = firstName;
@@ -45,8 +52,7 @@ public class Person {
 
     // Getters and Setters
     public Integer getId() { return id; }
-
-    public void setId(Integer id) { this.id = id; }  // 🔹 Hibernate will ignore this for new inserts
+    public void setId(Integer id) { this.id = id; }
 
     public String getFirstName() { return firstName; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
