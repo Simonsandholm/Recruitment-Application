@@ -14,6 +14,15 @@ public class CompetenceProfile {
     @Column(name = "competence_profile_id")
     private Integer id;
 
+    @Column(name = "person_id")
+    private Integer personId;
+
+    @Column(name = "competence_id")
+    private Integer competenceId;
+
+    @Column(name = "years_of_experience")
+    private Float yearsOfExperience;
+
     public void setId(Integer id) {
         this.id = id;
     }
