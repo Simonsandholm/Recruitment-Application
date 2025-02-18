@@ -2,6 +2,9 @@ package se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
+/**
+ * Data Transfer Object (DTO) for handling user login requests.
+ */
 public class LoginDTO {
     @NotBlank(message = "Username is required")
     private String username;

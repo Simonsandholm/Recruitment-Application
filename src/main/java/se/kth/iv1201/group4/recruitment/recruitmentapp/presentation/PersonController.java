@@ -14,6 +14,9 @@ import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.LoginDTO
 import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.RegisterDTO;
 
 
+/**
+ * Controller class for handling person-related requests.
+ */
 //@RestController
 @Controller
 @RequestMapping("/person")
@@ -21,7 +24,11 @@ import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.Register
 public class PersonController {
 
     private final PersonService personService;
-
+    /**
+     * Constructor for PersonController.
+     *
+     * @param personService Service for handling person-related operations.
+     */
     public PersonController(PersonService personService ){
         this.personService = personService;
     }
@@ -31,7 +38,12 @@ public class PersonController {
         return null;
     }*/
 
-
+    /**
+     * Handles GET requests to the dashboard page.
+     *
+     * @param model Model to hold attributes for the view.
+     * @return The name of the dashboard view.
+     */
     @GetMapping("/dashboard")
     public String dashboardPage(Model model/*, @SessionAttribute("username") String username*/){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -57,12 +69,7 @@ public class PersonController {
 
 
 
-    //@GetMapping("/register")
-    @PostMapping("/register")
-public ResponseEntity<String> register(@RequestBody @Valid RegisterDTO dto) {
-    personService.registerUser(dto);
-    return ResponseEntity.ok("User regged very nice i like how much.");
-}
+
 
 
 
