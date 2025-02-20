@@ -1,5 +1,6 @@
 package se.kth.iv1201.group4.recruitment.recruitmentapp.application;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.Availability;
+import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.CompetenceProfile;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.Person;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.Role;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.LoginDTO;
@@ -57,6 +60,15 @@ public class PersonService implements UserDetailsService {
         }
         return false;
     }
+
+    public List<Person> getAllPersons() {
+        return personRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+    }
+
+    public Person getPersonById(Integer id){
+        return personRepository.findById(id).orElse(null);
+    }
+
 
     /**
      * Loads user details by username.
