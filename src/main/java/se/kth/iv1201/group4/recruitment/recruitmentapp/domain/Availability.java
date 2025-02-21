@@ -2,34 +2,66 @@ package se.kth.iv1201.group4.recruitment.recruitmentapp.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import java.util.Date;
 
 @Entity
-@Table(name = "availability", schema = "public") // Ensure Hibernate looks in the correct schema
 @Data
+@Table(name = "availability")
 public class Availability {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-incremented primary key
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "availability_id")
     private Integer id;
 
-    @Column(name = "person_id")
-    private Integer personId;
+    @ManyToOne
+    @JoinColumn(name = "application_id", nullable = false)  // Foreign key reference to Application
+    private Application application;
 
-    @Column(name = "from_date")
-    private Date fromDate;
+    @Column(name = "from_date", nullable = false)
+    private String fromDate;
 
-    @Column(name = "to_date")
-    private Date toDate;
+    @Column(name = "to_date", nullable = false)
+    private String toDate;
 
-    // Default constructor
+    // Constructors
     public Availability() {}
 
-    // Parameterized constructor
-    public Availability(Integer personId, Date fromDate, Date toDate) {
-        this.personId = personId;
+    public Availability(Application application, String fromDate, String toDate) {
+        this.application = application;
         this.fromDate = fromDate;
+        this.toDate = toDate;
+    }
+
+    // Getters and Setters
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Application getApplication() {
+        return application;
+    }
+
+    public void setApplication(Application application) {
+        this.application = application;
+    }
+
+    public String getFromDate() {
+        return fromDate;
+    }
+
+    public void setFromDate(String fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public String getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(String toDate) {
         this.toDate = toDate;
     }
 }

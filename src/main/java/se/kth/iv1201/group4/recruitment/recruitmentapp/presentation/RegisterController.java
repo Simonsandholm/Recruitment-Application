@@ -43,24 +43,25 @@ public class RegisterController {
      * @return the dashboard view if successful.
      */
     @PostMapping("/register")
-    public String register(@ModelAttribute("registerDTO") @Valid RegisterDTO dto,
-                           BindingResult result,
-                           Model model) {
+public String register(@ModelAttribute("registerDTO") @Valid RegisterDTO dto,
+                       BindingResult result,
+                       Model model) {
 
-        // If validation errors exist, return to the registration form with values submitted before.
-        if (result.hasErrors()) {
-            return "register";
-        }
-
-        try {
-            registerService.registerUser(dto);
-        } catch (RuntimeException e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            return "register"; // Stay on the same page and display error
-        }
-
-        return "redirect:/user/register-success";
+    // If validation errors exist, return to the registration form with values submitted before.
+    if (result.hasErrors()) {
+        return "register";
     }
+
+    try {
+        registerService.registerUser(dto);
+    } catch (RuntimeException e) {
+        model.addAttribute("errorMessage", e.getMessage());
+        return "register"; // Stay on the same page and display error
+    }
+
+    // ✅ Corrected redirect to pass the success parameter
+    return "redirect:/user/register?success";
+}
 
     /**
      * A get call that is made if registering is successful.
