@@ -1,10 +1,8 @@
 package se.kth.iv1201.group4.recruitment.recruitmentapp.domain;
 
 import jakarta.persistence.*;
-import lombok.Data;
 
 @Entity
-@Data
 @Table(name = "competence")
 public class Competence {
 
@@ -13,7 +11,7 @@ public class Competence {
     @Column(name = "competence_id")
     private Integer id;
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "name", nullable = false)
     private String name;
 
     // Constructors
@@ -22,7 +20,6 @@ public class Competence {
     public Competence(String name) {
         this.name = name;
     }
-
     // Getters and Setters
     public Integer getId() {
         return id;

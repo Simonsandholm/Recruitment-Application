@@ -1,33 +1,30 @@
 package se.kth.iv1201.group4.recruitment.recruitmentapp.domain;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
+@Table(name = "application")
 public class Application {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @ManyToOne
-    private Person person;  // The applicant who submitted this application
+    @JoinColumn(name = "person_person_id")  // Matches DB schema
+    private Person person;
 
-    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CompetenceProfile> competenceProfiles;
+    @Column(name = "submitted", nullable = false)
+    private boolean submitted;
 
-    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Availability> availabilityPeriods;
-
-    private boolean submitted;  // Tracks if the application has been finalized
-
+    // Constructors
     public Application() {}
 
-    public Application(Person person) {
+    public Application(Person person, boolean submitted) {
         this.person = person;
-        this.submitted = false;
+        this.submitted = submitted;
     }
-
     public Long getId() {
         return id;
     }
@@ -40,7 +37,7 @@ public class Application {
         this.person = person;
     }
 
-    public List<CompetenceProfile> getCompetenceProfiles() {
+    /*public List<CompetenceProfile> getCompetenceProfiles() {
         return competenceProfiles;
     }
 
@@ -54,7 +51,7 @@ public class Application {
 
     public void setAvailabilityPeriods(List<Availability> availabilityPeriods) {
         this.availabilityPeriods = availabilityPeriods;
-    }
+    }*/
 
     public boolean isSubmitted() {
         return submitted;

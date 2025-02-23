@@ -14,10 +14,6 @@ public class CompetenceProfile {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "application_id", nullable = false)  // Foreign key reference to Application
-    private Application application;
-
-    @ManyToOne
     @JoinColumn(name = "competence_id", nullable = false)  // Foreign key reference to Competence
     private Competence competence;
 

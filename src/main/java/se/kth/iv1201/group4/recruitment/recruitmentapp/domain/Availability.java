@@ -13,10 +13,6 @@ public class Availability {
     @Column(name = "availability_id")
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "application_id", nullable = false)  // Foreign key reference to Application
-    private Application application;
-
     @Column(name = "from_date", nullable = false)
     private String fromDate;
 
@@ -26,8 +22,7 @@ public class Availability {
     // Constructors
     public Availability() {}
 
-    public Availability(Application application, String fromDate, String toDate) {
-        this.application = application;
+    public Availability(String fromDate, String toDate) {
         this.fromDate = fromDate;
         this.toDate = toDate;
     }
@@ -41,13 +36,6 @@ public class Availability {
         this.id = id;
     }
 
-    public Application getApplication() {
-        return application;
-    }
-
-    public void setApplication(Application application) {
-        this.application = application;
-    }
 
     public String getFromDate() {
         return fromDate;
