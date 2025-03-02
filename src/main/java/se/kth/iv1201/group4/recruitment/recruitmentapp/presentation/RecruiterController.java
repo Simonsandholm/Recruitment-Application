@@ -1,4 +1,5 @@
 package se.kth.iv1201.group4.recruitment.recruitmentapp.presentation;
+import jakarta.persistence.Tuple;
 import org.springframework.security.access.method.P;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,8 +12,10 @@ import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.Availability;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.CompetenceProfile;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.Person;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.LoginDTO;
+import se.kth.iv1201.group4.recruitment.recruitmentapp.presentation.dto.PersonStatusDTO;
 
 import java.util.List;
+import java.util.Map;
 
 //import se.kth.iv1201.group4.recruitment.recruitmentapp.application.UserService;
 @Controller
@@ -47,6 +50,13 @@ public class RecruiterController {
         model.addAttribute("username", username);
         model.addAttribute("competenceProfiles", profiles);
         model.addAttribute("persons", persons);
+
+        //Map<Integer, String> personStatus = recruiterService.getAllPersonStatus();
+        List<PersonStatusDTO> personStatus = recruiterService.getAllPersonStatus();
+        for (int i = 0; i< personStatus.size(); i++){
+            System.out.println("personstatus list item" +personStatus.get(i));
+        }
+        model.addAttribute("personStatus", personStatus);
         return "/recruiter";
     }
     @GetMapping("/profile/{personID}")

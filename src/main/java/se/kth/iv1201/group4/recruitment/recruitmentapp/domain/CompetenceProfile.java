@@ -23,6 +23,8 @@ public class CompetenceProfile {
     @Column(name = "years_of_experience")
     private Float yearsOfExperience;
 
+    @Column(name = "status")
+    private String status;
     public void setId(Integer id) {
         this.id = id;
     }
