@@ -16,7 +16,9 @@
 
     <span th:text="${person.firstName + ' ' + person.lastName}"></span>
 
-    <p><strong>Status:</strong> Active</p>
+
+    <p><strong>Status: </strong><span th:text="${{personStatusMap[person.id] ?: 'No Status'}}"></span> </p>
+
 
     <a href="/recruiter" class="btn btn-secondary mt-3">Back to Recruiter Page</a>
 </div>

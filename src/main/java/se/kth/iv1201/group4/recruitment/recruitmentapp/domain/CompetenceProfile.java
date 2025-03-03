@@ -6,6 +6,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+/**
+ * Shows a persons competence profile and years of experience for that specific competence.
+ * This class is mapped to the "competence_profile" table in the database.
+ */
+
 @Entity
 @Data
 @Table(name = "competence_profile")

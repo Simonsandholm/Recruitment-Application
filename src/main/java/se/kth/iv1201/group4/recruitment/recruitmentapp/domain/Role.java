@@ -5,6 +5,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
 
+/**
+ * Represents the role of a person, recruiter or applicant
+ * This class is mapped to the "role" table in the database.
+ */
+
+
 @Entity
 @Data
 public class Role {

@@ -5,6 +5,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
 
+/**
+ * Displays a person different competences.
+ * This class is mapped to the "competence" table in the database.
+ */
+
 @Entity
 @Data
 public class Competence {

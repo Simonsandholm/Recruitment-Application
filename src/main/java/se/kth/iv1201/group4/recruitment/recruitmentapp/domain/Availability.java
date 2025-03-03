@@ -4,6 +4,11 @@ import jakarta.persistence.*;
 import lombok.Data;
 import java.util.Date;
 
+/**
+ * Represents the availability of a person for a specific period. A person can have multiple availabilities.
+ * This class is mapped to the "availability" table in the database.
+ */
+
 @Entity
 @Table(name = "availability", schema = "public") // Ensure Hibernate looks in the correct schema
 @Data

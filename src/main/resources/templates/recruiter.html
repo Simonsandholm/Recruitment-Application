@@ -31,7 +31,8 @@
                             <span th:text="${person.firstName + ' ' + person.lastName}"></span>
                         </div>
                         <div class="col">
-                            <span th:text="${personStatus[person.id]"></span>
+
+                            <span th:text="${personStatusMap[person.id] ?: 'No Status'}"></span>
                         </div>
                     </div>
                 </a>

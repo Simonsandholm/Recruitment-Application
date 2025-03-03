@@ -41,6 +41,9 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/dashboard", true)
                         .permitAll()
                 )
+                /*.exceptionHandling(exception -> exception
+                        .accessDeniedPage("/error")
+                )*/
                 .logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/login")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
