@@ -62,7 +62,7 @@ public class RecruiterController {
         model.addAttribute("persons", persons);
         model.addAttribute("personStatusMap", personStatusMap);
 
-        return "/recruiter";
+        return "recruiter";
     }
 
     /**
