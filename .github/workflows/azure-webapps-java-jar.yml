@@ -75,5 +75,5 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: Recruitment-Application
-          publish-profile: Recruitment-Application.PublishSettings
+          publish-profile: Recruitment-Application.PublishSettings2
           package: '*.jar'
