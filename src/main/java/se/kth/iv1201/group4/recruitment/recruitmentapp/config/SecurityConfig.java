@@ -31,6 +31,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable());
         http
+                .sessionManagement(session -> 
+                session
+                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)  
+                    .maximumSessions(1)  
+                    .expiredUrl("/login?expired=true")  
+        )
+                
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/login", "/register").permitAll()
                         .requestMatchers("/recruiter").hasAuthority("recruiter")
