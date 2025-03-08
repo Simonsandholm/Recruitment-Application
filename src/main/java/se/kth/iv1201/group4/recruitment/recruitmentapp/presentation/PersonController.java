@@ -52,7 +52,7 @@ public class PersonController {
 
 
         model.addAttribute("username", username);  // Add username to the model
-        return "/dashboard";
+        return "dashboard";
     }
 
 
