@@ -26,7 +26,7 @@ env:
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "recruiter" ]
   workflow_dispatch:
 
 permissions:
@@ -62,7 +62,7 @@ jobs:
     needs: build
     environment:
       name: 'Development'
-      url: 'recruitment-application-c2e4cga6afc0ckaw.swedencentral-01.azurewebsites.net'
+      url: 'https://recruitment-application-c2e4cga6afc0ckaw.swedencentral-01.azurewebsites.net'
 
     steps:
       - name: Download artifact from build job
