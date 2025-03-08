@@ -1,6 +1,8 @@
 package se.kth.iv1201.group4.recruitment.recruitmentapp.application;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.Person;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.Role;
@@ -42,7 +44,7 @@ public class RegisterService {
      * @param dto The data transfer object containing user registration details.
      * @throws RuntimeException if the email or username is already in use.
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
     public void registerUser(RegisterDTO dto) {
         if (personRepository.existsByEmail(dto.getEmail())) {
             throw new RuntimeException("Email is already in use.");

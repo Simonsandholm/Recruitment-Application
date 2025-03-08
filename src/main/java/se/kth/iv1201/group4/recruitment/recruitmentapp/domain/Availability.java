@@ -1,34 +1,36 @@
 package se.kth.iv1201.group4.recruitment.recruitmentapp.domain;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import java.util.Date;
+import lombok.*;
 
 @Entity
-@Table(name = "availability", schema = "public") // Ensure Hibernate looks in the correct schema
-@Data
+@Table(name = "availability")
+// This allows us to skip implementing getters and setters
+@Getter
+@Setter
+@NoArgsConstructor
 public class Availability {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-incremented primary key
-    @Column(name = "availability_id")
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "availability_id", nullable = false, updatable = false)
+    private Integer availabilityId;
 
-    @Column(name = "person_id")
-    private Integer personId;
+    @ManyToOne
+    @JoinColumn(name = "person_id", nullable = false)
+    private Person person;
 
-    @Column(name = "from_date")
-    private Date fromDate;
+    @Column(name = "from_date", nullable = false)
+    private String fromDate;
 
-    @Column(name = "to_date")
-    private Date toDate;
+    @Column(name = "to_date", nullable = false)
+    private String toDate;
 
-    // Default constructor
-    public Availability() {}
-
-    // Parameterized constructor
-    public Availability(Integer personId, Date fromDate, Date toDate) {
-        this.personId = personId;
+    /**
+     * Convenience constructor
+     */
+    public Availability(Person person, String fromDate, String toDate) {
+        this.person = person;
         this.fromDate = fromDate;
         this.toDate = toDate;
     }

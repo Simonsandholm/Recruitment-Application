@@ -1,12 +1,17 @@
 package se.kth.iv1201.group4.recruitment.recruitmentapp.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
- * Represents a person in the system.
- * This entity contains personal information, including name, email, username, and role.
+ * Entity representing a person in the system.
  */
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public class Person {
 
     @Id
@@ -36,10 +41,16 @@ public class Person {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    // Default constructor
-    public Person() {}
-
-    // Constructor with all required fields
+    /**
+     * Creates a new person with the given details.
+     *
+     * @param firstName    The first name of the person.
+     * @param lastName     The last name of the person.
+     * @param personNumber The personal identification number.
+     * @param email        The email address of the person.
+     * @param password     The person's password.
+     * @param username     The username of the person.
+     */
     public Person(String firstName, String lastName, String personNumber,
                   String email, String password, String username) {
         this.firstName = firstName;
@@ -49,29 +60,4 @@ public class Person {
         this.password = password;
         this.username = username;
     }
-
-    // Getters and Setters
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
-
-    public String getFirstName() { return firstName; }
-    public void setFirstName(String firstName) { this.firstName = firstName; }
-
-    public String getLastName() { return lastName; }
-    public void setLastName(String lastName) { this.lastName = lastName; }
-
-    public String getPersonNumber() { return personNumber; }
-    public void setPersonNumber(String personNumber) { this.personNumber = personNumber; }
-
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
-
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
-
-    public Role getRole() { return role; }
-    public void setRole(Role role) { this.role = role; }
 }

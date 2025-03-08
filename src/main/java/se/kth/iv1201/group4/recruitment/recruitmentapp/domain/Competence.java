@@ -1,19 +1,33 @@
 package se.kth.iv1201.group4.recruitment.recruitmentapp.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.Data;
+import jakarta.persistence.*;
 
 @Entity
-@Data
+@Table(name = "competence")
 public class Competence {
+
     @Id
-    @Column(name = "competence_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "competence_id", nullable = false, updatable = false)
     private Integer id;
 
     @Column(name = "name")
     private String name;
+
+    public Competence() {
+    }
+
+    public Competence(String name) {
+        this.name = name;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -21,13 +35,5 @@ public class Competence {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getId() {
-        return id;
     }
 }

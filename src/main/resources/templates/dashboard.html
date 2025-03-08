@@ -9,6 +9,17 @@
     />
 </head>
 <body>
+<h1>Welcome to the Dashboard!</h1>
+<p>You are successfully logged in, <p th:text="${username}"></p>!</p>
+<form action="/logout" method="post">
+    <button type="submit">Logout</button>
+</form>
+
+<form action="/apply" method="get">
+    <button type="submit">Apply for position</button>
+</form>
+
+
 <div class="container mt-5 text-center">
     <h2 class="mb-3">Welcome to the Dashboard!</h2>
     <p class="lead">You are successfully logged in, <span th:text="${username}"></span>!</p>

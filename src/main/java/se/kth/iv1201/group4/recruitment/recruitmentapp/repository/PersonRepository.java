@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.Person;
-import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.User;
 
 import java.util.List;
 

@@ -1,33 +1,36 @@
 package se.kth.iv1201.group4.recruitment.recruitmentapp.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
-@Data
 @Table(name = "competence_profile")
+@Getter
+@Setter
+@NoArgsConstructor
 public class CompetenceProfile {
+
     @Id
-    @Column(name = "competence_profile_id")
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "competence_profile_id", nullable = false, updatable = false)
+    private Integer competenceProfileId;
 
-    @Column(name = "person_id")
-    private Integer personId;
+    @ManyToOne
+    @JoinColumn(name = "person_id", nullable = false)
+    private Person person;
 
-    @Column(name = "competence_id")
-    private Integer competenceId;
+    @ManyToOne
+    @JoinColumn(name = "competence_id", nullable = false)
+    private Competence competence;
 
-    @Column(name = "years_of_experience")
-    private Float yearsOfExperience;
+    @Column(name = "years_of_experience", nullable = false)
+    private Double yearsOfExperience;
 
-    public void setId(Integer id) {
-        this.id = id;
+    public CompetenceProfile(Person person, Competence competence, Double yearsOfExperience) {
+        this.person = person;
+        this.competence = competence;
+        this.yearsOfExperience = yearsOfExperience;
     }
 
-    public Integer getId() {
-        return id;
-    }
+
 }
