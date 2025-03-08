@@ -5,9 +5,15 @@
 </head>
 <body>
 <h1>Welcome to the Dashboard!</h1>
-<p>You are successfully logged in, <p th:text="${username}"></p>! </p>
+<p>You are successfully logged in, <p th:text="${username}"></p>!</p>
 <form action="/logout" method="post">
     <button type="submit">Logout</button>
 </form>
+
+<form action="/apply" method="get">
+    <button type="submit">Apply for position</button>
+</form>
+
+
 </body>
 </html>

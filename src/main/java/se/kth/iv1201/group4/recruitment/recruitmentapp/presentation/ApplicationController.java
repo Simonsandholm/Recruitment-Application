@@ -1,6 +1,5 @@
 package se.kth.iv1201.group4.recruitment.recruitmentapp.presentation;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,118 +12,102 @@ import se.kth.iv1201.group4.recruitment.recruitmentapp.repository.PersonReposito
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
+/**
+ * Controller for handling application-related requests.
+ * Manages form display, submission, and cancellation.
+ */
 @Controller
 @RequestMapping("/apply")
 public class ApplicationController {
 
-    @Autowired
-    private ApplicationService applicationService;
-
-    @Autowired
-    private PersonRepository personRepository;
-
-    @Autowired
-    private CompetenceRepository competenceRepository;
+    private final ApplicationService applicationService;
+    private final CompetenceRepository competenceRepository;
+    private final PersonRepository personRepository;
 
     /**
-     * Helper method to get or create a draft application for the applicant.
-     * In a real app, you'd check if there's an existing, unsubmitted draft
-     * instead of always creating a new one.
+     * Constructs an ApplicationController with necessary dependencies.
+     *
+     * @param applicationService   Service handling application logic.
+     * @param competenceRepository Repository for retrieving competence data.
+     * @param personRepository     Repository for retrieving person data.
      */
-    private Application getDraftApplication(Person applicant) {
-        // For now, we create a new draft every time:
-        return applicationService.createNewApplication(applicant);
+    public ApplicationController(ApplicationService applicationService,
+                                 CompetenceRepository competenceRepository,
+                                 PersonRepository personRepository) {
+        this.applicationService = applicationService;
+        this.competenceRepository = competenceRepository;
+        this.personRepository = personRepository;
     }
 
     /**
-     * GET /apply
+     * Handles GET requests to /apply.
+     * Displays the application form if the user has no submitted application.
+     * If an application has already been submitted, redirects to a confirmation page.
      *
-     * Shows the application form (application-form.html).
-     * Expects that you're authenticated (so Principal is not null).
+     * @param model     Spring Model to pass data to the view.
+     * @param principal Authenticated user details.
+     * @return The name of the view to render.
      */
     @GetMapping
     public String showApplicationForm(Model model, Principal principal) {
-        // 1. Retrieve the currently logged-in user (by username)
-        Person applicant = personRepository.findByUsername(principal.getName());
+        String username = principal.getName();
+        Person applicant = personRepository.findByUsername(username);
 
-        // 2. Get all available competences
-        List<Competence> competences = competenceRepository.findAll();
+        // Check if user already has an application (draft or submitted)
+        Optional<Application> existing = applicationService.findApplication(username);
+        if (existing.isPresent()) {
+            Application app = existing.get();
+            if (app.isSubmitted()) {
+                // If already submitted, show confirmation page
+                return "application-confirmation";
+            }
+            // Otherwise, it's a draft, proceed to show the form.
+        }
 
-        // 3. Retrieve or create the draft application
-        Application draft = getDraftApplication(applicant);
-
-        // 4. Add attributes for the view
+        // No application or a draft exists – show the application form
         model.addAttribute("applicant", applicant);
+        List<Competence> competences = competenceRepository.findAll();
         model.addAttribute("competences", competences);
-        model.addAttribute("application", draft);
 
-        // 5. Return the Thymeleaf template name (application-form.html in /templates)
         return "application-form";
     }
 
     /**
-     * POST /apply/add-competence
+     * Handles POST requests to /apply/submit-all.
+     * Processes a single-form application submission, including competence, availability, and finalization.
+     * If the user already has a submitted application, this prevents duplicate entries.
      *
-     * Handles adding a competence to the user's application draft.
-     * Redirects back to /apply to show the updated form.
+     * @param competenceId      ID of the selected competence.
+     * @param yearsOfExperience User's experience in years.
+     * @param fromDate          Availability start date.
+     * @param toDate            Availability end date.
+     * @param principal         Authenticated user details.
+     * @return The confirmation page view.
      */
-    @PostMapping("/add-competence")
-    public String addCompetence(@RequestParam Integer competenceId,
-                                @RequestParam Double yearsOfExperience,
-                                Principal principal) {
-        Person applicant = personRepository.findByUsername(principal.getName());
-        Application draft = getDraftApplication(applicant);
+    @PostMapping("/submit-all")
+    public String submitAllApplication(
+            @RequestParam Integer competenceId,
+            @RequestParam Double yearsOfExperience,
+            @RequestParam String fromDate,
+            @RequestParam String toDate,
+            Principal principal
+    ) {
+        String username = principal.getName();
 
-        // Find the selected Competence from DB
-        Competence competence = competenceRepository
-                .findById(competenceId)
-                .orElse(null);
+        // Call the service to handle application submission
+        applicationService.submitAll(username, competenceId, yearsOfExperience, fromDate, toDate);
 
-        if (competence != null) {
-            applicationService.addCompetenceToApplication(draft, competence, yearsOfExperience);
-        }
-
-        // Redirect back to /apply to see the updated draft
-        return "redirect:/apply";
-    }
-
-    /**
-     * POST /apply/add-availability
-     *
-     * Handles adding an availability (fromDate, toDate) to the application draft.
-     */
-    @PostMapping("/add-availability")
-    public String addAvailability(@RequestParam String fromDate,
-                                  @RequestParam String toDate,
-                                  Principal principal) {
-        Person applicant = personRepository.findByUsername(principal.getName());
-        Application draft = getDraftApplication(applicant);
-
-        applicationService.addAvailabilityToApplication(draft, fromDate, toDate);
-        return "redirect:/apply";
-    }
-
-    /**
-     * POST /apply/submit
-     *
-     * Marks the draft application as submitted and shows confirmation.
-     */
-    @PostMapping("/submit")
-    public String submitApplication(Principal principal) {
-        Person applicant = personRepository.findByUsername(principal.getName());
-        Application draft = getDraftApplication(applicant);
-
-        applicationService.submitApplication(draft);
-
-        // Render application-confirmation.html (make sure this template exists)
+        // Redirect to confirmation page
         return "application-confirmation";
     }
 
     /**
-     * POST /apply/cancel
+     * Handles POST requests to /apply/cancel.
+     * Cancels the application process and redirects to the home page.
      *
-     * Cancels the application process and redirects to /home (or anywhere else).
+     * @return Redirects the user to the home page.
      */
     @PostMapping("/cancel")
     public String cancelApplication() {

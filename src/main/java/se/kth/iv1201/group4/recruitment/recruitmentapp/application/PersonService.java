@@ -29,7 +29,7 @@ public class PersonService implements UserDetailsService {
 
     public void registerUser(RegisterDTO dto) {
         if (personRepository.existsByEmail(dto.getEmail())) {
-            throw new RuntimeException("Email already in use bitchass.");
+            throw new RuntimeException("Email already in use.");
         }
 
         Person person = new Person();

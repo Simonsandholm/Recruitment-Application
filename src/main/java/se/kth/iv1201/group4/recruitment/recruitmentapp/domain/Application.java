@@ -1,32 +1,43 @@
 package se.kth.iv1201.group4.recruitment.recruitmentapp.domain;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Table(name = "application")
+@Getter @Setter @NoArgsConstructor
 public class Application {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "person_person_id")  // Matches DB schema
-    private Person person;
-
-    @Column(name = "submitted", nullable = false)
+    @Column(nullable = false)
     private boolean submitted;
 
-    // Constructors
-    public Application() {}
+    @OneToOne
+    @JoinColumn(name = "person_person_id", nullable = false)
+    private Person person;
 
-    public Application(Person person, boolean submitted) {
+    public Application(Person person) {
         this.person = person;
-        this.submitted = submitted;
+        this.submitted = false;
     }
+
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public boolean isSubmitted() {
+        return submitted;
+    }
+
+    public void setSubmitted(boolean submitted) {
+        this.submitted = submitted;
     }
 
     public Person getPerson() {
@@ -35,29 +46,5 @@ public class Application {
 
     public void setPerson(Person person) {
         this.person = person;
-    }
-
-    /*public List<CompetenceProfile> getCompetenceProfiles() {
-        return competenceProfiles;
-    }
-
-    public void setCompetenceProfiles(List<CompetenceProfile> competenceProfiles) {
-        this.competenceProfiles = competenceProfiles;
-    }
-
-    public List<Availability> getAvailabilityPeriods() {
-        return availabilityPeriods;
-    }
-
-    public void setAvailabilityPeriods(List<Availability> availabilityPeriods) {
-        this.availabilityPeriods = availabilityPeriods;
-    }*/
-
-    public boolean isSubmitted() {
-        return submitted;
-    }
-
-    public void setSubmitted(boolean submitted) {
-        this.submitted = submitted;
     }
 }

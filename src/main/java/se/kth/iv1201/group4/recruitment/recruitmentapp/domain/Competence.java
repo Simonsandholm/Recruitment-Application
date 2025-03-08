@@ -8,19 +8,19 @@ public class Competence {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "competence_id")
+    @Column(name = "competence_id", nullable = false, updatable = false)
     private Integer id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
-    // Constructors
-    public Competence() {}
+    public Competence() {
+    }
 
     public Competence(String name) {
         this.name = name;
     }
-    // Getters and Setters
+
     public Integer getId() {
         return id;
     }

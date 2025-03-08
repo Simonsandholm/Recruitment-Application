@@ -1,115 +1,125 @@
 package se.kth.iv1201.group4.recruitment.recruitmentapp.application;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.Application;
-import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.Availability;
-import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.Competence;
-import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.CompetenceProfile;
-import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.Person;
-import se.kth.iv1201.group4.recruitment.recruitmentapp.repository.ApplicationRepository;
-import se.kth.iv1201.group4.recruitment.recruitmentapp.repository.AvailabilityRepository;
-import se.kth.iv1201.group4.recruitment.recruitmentapp.repository.CompetenceProfileRepository;
-import se.kth.iv1201.group4.recruitment.recruitmentapp.repository.CompetenceRepository;
+import se.kth.iv1201.group4.recruitment.recruitmentapp.domain.*;
+import se.kth.iv1201.group4.recruitment.recruitmentapp.repository.*;
+
+import java.util.Optional;
 
 /**
- * Service class containing business logic for handling Applications.
+ * Service class responsible for handling business logic related to job applications.
+ * Provides methods to manage applications, including retrieval, creation, and submission.
  */
 @Service
 @Transactional
 public class ApplicationService {
 
-    @Autowired
-    private ApplicationRepository applicationRepository;
-
-    @Autowired
-    private CompetenceRepository competenceRepository;
-
-    @Autowired
-    private AvailabilityRepository availabilityRepository;
+    private final ApplicationRepository applicationRepository;
+    private final CompetenceRepository competenceRepository;
+    private final AvailabilityRepository availabilityRepository;
+    private final CompetenceProfileRepository competenceProfileRepository;
+    private final PersonRepository personRepository;
 
     /**
-     * IMPORTANT:
-     * You need a separate repository for CompetenceProfile (NOT CompetenceRepository).
-     */
-    @Autowired
-    private CompetenceProfileRepository competenceProfileRepository;
-
-    /**
-     * Creates and saves a new Application for the given Person.
+     * Constructs an ApplicationService with the required repositories.
      *
-     * @param applicant The person who is applying.
-     * @return The created and saved Application.
+     * @param applicationRepository     Repository for storing applications.
+     * @param competenceRepository      Repository for retrieving competence data.
+     * @param availabilityRepository    Repository for handling availability data.
+     * @param competenceProfileRepository Repository for competence profiles.
+     * @param personRepository          Repository for retrieving user details.
      */
-    public Application createNewApplication(Person applicant) {
+    public ApplicationService(ApplicationRepository applicationRepository,
+                              CompetenceRepository competenceRepository,
+                              AvailabilityRepository availabilityRepository,
+                              CompetenceProfileRepository competenceProfileRepository,
+                              PersonRepository personRepository) {
+        this.applicationRepository = applicationRepository;
+        this.competenceRepository = competenceRepository;
+        this.availabilityRepository = availabilityRepository;
+        this.competenceProfileRepository = competenceProfileRepository;
+        this.personRepository = personRepository;
+    }
+
+    /**
+     * Finds an existing application for the given user (either draft or submitted).
+     *
+     * @param username The username of the applicant.
+     * @return An optional containing the application if found, otherwise empty.
+     * @throws IllegalArgumentException If the applicant is not found.
+     */
+    public Optional<Application> findApplication(String username) {
+        Person applicant = personRepository.findByUsername(username);
         if (applicant == null) {
-            throw new IllegalArgumentException("Applicant cannot be null");
+            throw new IllegalArgumentException("Applicant not found for username: " + username);
         }
-        Application application = new Application(applicant);
-        return applicationRepository.save(application);
+        return applicationRepository.findByPerson(applicant);
     }
 
     /**
-     * Adds a CompetenceProfile (with yearsOfExperience) to an existing Application.
+     * Retrieves an existing draft application for the user or creates a new one if none exists.
      *
-     * @param application       The existing application to link the CompetenceProfile to.
-     * @param competence        The Competence to associate with this profile.
-     * @param yearsOfExperience The number of years of experience for this competence.
+     * @param username The username of the applicant.
+     * @return A draft application for the applicant.
+     * @throws IllegalArgumentException If the applicant is not found.
      */
-    public void addCompetenceToApplication(Application application,
-                                           Competence competence,
-                                           Double yearsOfExperience) {
-        if (application == null || competence == null) {
-            throw new IllegalArgumentException("Application and Competence must not be null");
+    public Application getDraftApplication(String username) {
+        Person applicant = personRepository.findByUsername(username);
+        if (applicant == null) {
+            throw new IllegalArgumentException("Applicant not found.");
         }
 
-        // Make sure both the Application and Competence are persisted
-        // (have non-null IDs) before creating a CompetenceProfile.
-        if (application.getId() == null) {
-            application = applicationRepository.save(application);
-        }
-        if (competence.getId() == null) {
-            competence = competenceRepository.save(competence);
-        }
+        // Check if the user already has a draft application
+        Optional<Application> existingApp = applicationRepository.findByPerson(applicant);
 
-        CompetenceProfile competenceProfile =
-                new CompetenceProfile(application, competence, yearsOfExperience);
-
-        // IMPORTANT: Use CompetenceProfileRepository, not CompetenceRepository
-        competenceProfileRepository.save(competenceProfile);
+        // Return an existing draft if found, otherwise create and save a new one
+        return existingApp.stream()
+                .filter(app -> !app.isSubmitted())
+                .findFirst()
+                .orElseGet(() -> applicationRepository.save(new Application(applicant)));
     }
 
     /**
-     * Adds an Availability record (fromDate, toDate) to an existing Application.
+     * Processes the application submission in a single transaction.
+     * Adds competence, availability, and finalizes the application.
+     * If an application is already submitted, it does nothing.
      *
-     * @param application The application to which this availability should be added.
-     * @param fromDate    The start date of availability.
-     * @param toDate      The end date of availability.
+     * @param username           The username of the applicant.
+     * @param competenceId       The ID of the selected competence.
+     * @param yearsOfExperience  The applicant's years of experience in the selected competence.
+     * @param fromDate           The availability start date.
+     * @param toDate             The availability end date.
+     * @throws RuntimeException If the specified competence is not found.
      */
-    public void addAvailabilityToApplication(Application application,
-                                             String fromDate,
-                                             String toDate) {
-        if (application == null) {
-            throw new IllegalArgumentException("Application must not be null");
+    @Transactional(rollbackFor = Exception.class)
+    public void submitAll(String username, Integer competenceId, Double yearsOfExperience,
+                          String fromDate, String toDate) {
+        // Retrieve or create a draft application
+        Application draft = getDraftApplication(username);
+
+        // If the draft is already submitted, do nothing
+        if (draft.isSubmitted()) {
+            return;
         }
-        if (application.getId() == null) {
-            application = applicationRepository.save(application);
-        }
-        Availability availability = new Availability(application, fromDate, toDate);
+
+        // Retrieve the applicant
+        Person applicant = draft.getPerson();
+
+        // Find the selected competence
+        Competence competence = competenceRepository.findById(competenceId)
+                .orElseThrow(() -> new RuntimeException("Competence not found with ID: " + competenceId));
+
+        // Create and save a competence profile
+        CompetenceProfile cp = new CompetenceProfile(applicant, competence, yearsOfExperience);
+        competenceProfileRepository.save(cp);
+
+        // Create and save an availability entry
+        Availability availability = new Availability(applicant, fromDate, toDate);
         availabilityRepository.save(availability);
-    }
 
-    /**
-     * Marks an Application as submitted and updates it in the database.
-     *
-     * @param application The application to be marked as submitted.
-     */
-    public void submitApplication(Application application) {
-        if (application == null || application.getId() == null) {
-            throw new IllegalArgumentException("Application must be persisted before submission");
-        }
-        application.setSubmitted(true);
-        applicationRepository.save(application);
+        // Mark the application as submitted and save it
+        draft.setSubmitted(true);
+        applicationRepository.save(draft);
     }
 }
