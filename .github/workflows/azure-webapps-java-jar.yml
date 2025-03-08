@@ -44,8 +44,7 @@ jobs:
         with:
           java-version: 21
           distribution: zulu
-          cache: 'maven'
-          cache-dependency-path: '**/pom.xml'
+         
 
       - name: Build with Maven
         run: mvn clean install
